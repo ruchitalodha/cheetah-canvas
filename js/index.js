@@ -136,7 +136,7 @@ function cheetahCanvas () {
         canvas.width = w;
         canvas.height = h;
         ctx.clearRect(0, 0, w, h);
-      },300);
+      }, 200);
     });
   }
 }
