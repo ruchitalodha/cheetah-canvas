@@ -73,7 +73,7 @@ function cheetahCanvas () {
       //and then make a stroke on the current position
       else if ([66, 71, 89, 82].includes(e.keyCode)) {
         ctx.fillStyle = keycodes[e.keyCode];
-        ctx.fillRect(currentX, currentY, 40, 40);
+        ctx.fillRect(currentX, currentY, brushSize, brushSize);
       }
     });
   }
@@ -85,58 +85,39 @@ function cheetahCanvas () {
     }
   }
 
-
+  //Keep checking for isMobileDevice;
+  function handleDeviceResize() {
+    isMobileDevice = window.innerWidth < 700;
+    var {w, h} = calculateCanvasSize(window.innerWidth, window.innerHeight);
+    canvas.width = w;
+    canvas.height = h;
+    ctx.fillStyle = 'red';
+    // canvas.width = w;
+    // canvas.height = h;
+  }
 
   //On load set the keybindings of document and the mousemove action.
   document.onmousemove = onMouseMove();
+
   colorPicker.addEventListener("change", function (e) {
     ctx.fillStyle = e.target.value;
   });
 
-  //Keep checking for isMobileDevice;
-  function handleDeviceResize() {
-    isMobileDevice = window.innerWidth < 700;
-  }
-
   //On resize get the device type
   window.addEventListener("resize", handleDeviceResize);
 
-  if (!isMobileDevice) {
-    document.addEventListener('keyup', function (e) {
-      //If the key is spacebar clear canvas;
-      e.preventDefault();
-      if (e.keyCode == 32) {
-        ctx.clearRect(0, 0, w, h);
-        colorPicker.click();
-      }
+  document.addEventListener('keyup', callKeyBindingEvents);
 
-      //Up arrow to stop drawing
-      if (e.keyCode == 38) {
-        upArrowClicked = true;
-      }
-
-      //Down arrow to start drawing
-      if (e.keyCode == 40) {
-        upArrowClicked = false;
-      }
-
-      //If key is b/g/y/r then change the stroke to respective keycode
-      //and then make a stroke on the current position
-      else if ([66, 71, 89, 82].includes(e.keyCode)) {
-        ctx.fillStyle = keycodes[e.keyCode];
-        ctx.fillRect(currentX, currentY, brushSize, brushSize);
-      }
-    });
-  }
-  else {
-    window.addEventListener("orientationchange", function() {
-      // After orientationchange, add a one-time resize event
-      setTimeout(function(){
-        var {w, h} = calculateCanvasSize(window.innerWidth, window.innerHeight);
-        canvas.width = w;
-        canvas.height = h;
-        ctx.clearRect(0, 0, w, h);
-      }, 200);
+  if(isMobileDevice) {
+      window.addEventListener("orientationchange", function() {
+        // After orientationchange, add a one-time resize event
+        setTimeout(function(){
+          var {w, h} = calculateCanvasSize(window.innerWidth, window.innerHeight);
+          ctx.clearRect(0, 0, w, h);
+          canvas.width = w;
+          canvas.height = h;
+          ctx.fillStyle = 'red';
+        }, 200);
     });
   }
 }
