@@ -50,8 +50,7 @@ function cheetahCanvas () {
     }
   }
 
-  function callKeyBindingEvents() {
-    document.addEventListener('keyup', function (e) {
+  function callKeyBindingEvents(e) {
       //If the key is spacebar clear canvas;
       e.preventDefault();
       if (e.keyCode == 32) {
@@ -75,8 +74,7 @@ function cheetahCanvas () {
         ctx.fillStyle = keycodes[e.keyCode];
         ctx.fillRect(currentX, currentY, brushSize, brushSize);
       }
-    });
-  }
+    }
 
   function calculateCanvasSize(width, height) {
     return {
