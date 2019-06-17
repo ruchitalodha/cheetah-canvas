@@ -122,4 +122,4 @@ function cheetahCanvas () {
   }
 }
 
-cheetahCanvas()
+window.addEventListener('load', cheetahCanvas() , false )
